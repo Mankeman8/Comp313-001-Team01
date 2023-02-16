@@ -33,6 +33,7 @@ public class Deactivate : MonoBehaviour
         yield return new WaitForSeconds(5);
         lifetime = lifetimemax;
         gameObject.SetActive(false);
+        Destroy(gameObject);
 
     }
 
