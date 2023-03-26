@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Fire
   - Ground
+  - wasd
+  - space
   layers:
   - Default
   - TransparentFX
