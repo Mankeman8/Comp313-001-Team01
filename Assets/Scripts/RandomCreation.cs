@@ -55,7 +55,15 @@ public class RandomCreation : MonoBehaviour
             //Since importing from blender makes the trees be laying on the side,
             //The X rotation is set to -90 until i fix that.
             //Once we start to instantiate the other ones, uncomment the line below and comment the other one out.
-            instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(-90f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
+            if(prefab.name == "Tree")
+            {
+                instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(-90f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
+            }
+            else
+            {
+                instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(0f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
+            }
+            //instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(-90f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
             //instantiatedPrefab.transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
             instantiatedPrefab.transform.localScale = new Vector3(
                 Random.Range(minScale.x, maxScale.x),
