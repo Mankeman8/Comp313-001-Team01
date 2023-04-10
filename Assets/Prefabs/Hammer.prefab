@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7881168511317958531}
   - component: {fileID: 8663479655876572916}
+  - component: {fileID: -7192104458911159139}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
@@ -131,3 +132,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cab9b0b546f244eacffd20215ca077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Activated: 0
+  isRunning: 0
+  levelDone: 0
+  heightAdded: 1550
+  initialHeight: 0
+  maxHeight: 0
+  image: {fileID: 0}
+--- !u!136 &-7192104458911159139
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355602693763204409}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.5, z: 0}

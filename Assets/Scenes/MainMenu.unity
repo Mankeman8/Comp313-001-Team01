@@ -4083,6 +4083,10 @@ PrefabInstance:
       propertyPath: effectSlider
       value: 
       objectReference: {fileID: 1830941559}
+    - target: {fileID: 518407071184469166, guid: 037deaf989b21a947b982ef8ed1c8a71, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ffbe2754d6137164a8d5bed8052710f5, type: 3}
     - target: {fileID: 518407072531608075, guid: 037deaf989b21a947b982ef8ed1c8a71, type: 3}
       propertyPath: m_Name
       value: Managers
