@@ -8,21 +8,24 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 2f;
     public float patrolSpeed = 2f;
     public float chaseSpeed = 5f;
-    public float rotationSpeed = 5f;
+    public float rotationSpeed = 10f;
     public Material normalMaterial;
     public Material detectedMaterial;
+    public AudioClip moveSound;
 
     private int currentWaypoint = 0;
     private NavMeshAgent _agent;
-    private Transform _player;
+    private GameObject _player;
     private Renderer _renderer;
+    private AudioSource _audioSource;
     private bool isChasing = false;
 
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = GameObject.FindGameObjectWithTag("Player");
         _renderer = GetComponent<Renderer>();
+        _audioSource = GetComponent<AudioSource>();
         GoToNextWaypoint();
     }
 
@@ -50,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
     bool CanSeePlayer()
     {
         bool canSee = false;
-        Vector3 direction = _player.position - transform.position;
+        Vector3 direction = _player.transform.position - transform.position;
         RaycastHit hit;
         if (Physics.Raycast(transform.position, direction, out hit, detectRange))
         {
@@ -65,16 +68,13 @@ public class EnemyMovement : MonoBehaviour
     void ChasePlayer()
     {
         _agent.speed = chaseSpeed;
-        _agent.SetDestination(_player.position);
-        if (Vector3.Distance(transform.position, _player.position) <= attackRange)
+        _agent.SetDestination(_player.transform.position);
+        if (Vector3.Distance(transform.position, _player.transform.position) <= attackRange)
         {
-            AttackPlayer();
+            _agent.speed = 0;
         }
-    }
-
-    void AttackPlayer()
-    {
-        // Insert attack code here
+        transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized);
+        PlayMoveSound();
     }
 
     void Patrol()
@@ -84,20 +84,22 @@ public class EnemyMovement : MonoBehaviour
         {
             GoToNextWaypoint();
         }
+        transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized);
+        PlayMoveSound();
     }
 
     void GoToNextWaypoint()
     {
         _agent.SetDestination(waypoints[currentWaypoint].position);
         currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
+        PlayMoveSound();
     }
 
-    void OnDrawGizmosSelected()
+    void PlayMoveSound()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        if (_audioSource.isPlaying) return;
+        _audioSource.clip = moveSound;
+        _audioSource.loop = true;
+        _audioSource.Play();
     }
 }

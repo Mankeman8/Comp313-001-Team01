@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+
     private void Start()
     {
         speed = startSpeed;
