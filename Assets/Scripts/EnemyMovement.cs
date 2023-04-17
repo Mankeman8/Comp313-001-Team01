@@ -13,14 +13,14 @@ public class EnemyMovement : MonoBehaviour
     public Material detectedMaterial;
 
     private int currentWaypoint = 0;
-    private NavMeshAgent _agent;
+    //private NavMeshAgent _agent;
     private Transform _player;
     private Renderer _renderer;
     private bool isChasing = false;
 
     void Start()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        //_agent = GetComponent<NavMeshAgent>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _renderer = GetComponent<Renderer>();
         GoToNextWaypoint();
@@ -43,7 +43,7 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             _renderer.material = normalMaterial;
-            Patrol();
+            //Patrol();
         }
     }
 
@@ -64,8 +64,8 @@ public class EnemyMovement : MonoBehaviour
 
     void ChasePlayer()
     {
-        _agent.speed = chaseSpeed;
-        _agent.SetDestination(_player.position);
+        //_agent.speed = chaseSpeed;
+        //_agent.SetDestination(_player.position);
         if (Vector3.Distance(transform.position, _player.position) <= attackRange)
         {
             AttackPlayer();
@@ -77,18 +77,18 @@ public class EnemyMovement : MonoBehaviour
         // Insert attack code here
     }
 
-    void Patrol()
-    {
-        _agent.speed = patrolSpeed;
-        if (_agent.remainingDistance < _agent.stoppingDistance)
-        {
-            GoToNextWaypoint();
-        }
-    }
+    //void Patrol()
+    //{
+    //    _agent.speed = patrolSpeed;
+    //    if (_agent.remainingDistance < _agent.stoppingDistance)
+    //    {
+    //        GoToNextWaypoint();
+    //    }
+    //}
 
     void GoToNextWaypoint()
     {
-        _agent.SetDestination(waypoints[currentWaypoint].position);
+        //_agent.SetDestination(waypoints[currentWaypoint].position);
         currentWaypoint = (currentWaypoint + 1) % waypoints.Length;
     }
 

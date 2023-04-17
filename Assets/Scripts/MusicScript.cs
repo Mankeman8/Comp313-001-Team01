@@ -5,8 +5,8 @@ using UnityEngine.Audio;
 
 public class MusicScript : MonoBehaviour
 {
-    private AudioSource _audioSource;
-    private static MusicScript musicScript;
+    public AudioSource _audioSource;
+    public static MusicScript musicScript;
 
     private void Awake()
     {

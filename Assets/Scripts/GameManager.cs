@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (SceneManager.GetActiveScene().name == mainMenu)
+        {
+            return;
+        }
         timerInGame = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
         difficultyInGame = GameObject.Find("Difficulty").GetComponent<TextMeshProUGUI>();
         enemyDifficultyInGame = GameObject.Find("EnemyDifficulty").GetComponent<TextMeshProUGUI>();
@@ -46,6 +50,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name == mainMenu)
+        {
+            return;
+        }
 
         levelDone = false;
         startTeleporter = false;
@@ -108,6 +116,10 @@ public class GameManager : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (SceneManager.GetActiveScene().name == mainMenu)
+        {
+            return;
+        }
         UpdateTimeAlive();
         UpdateDifficultyModifier();
         EnemyDifficulty();

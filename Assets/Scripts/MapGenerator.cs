@@ -1,6 +1,8 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
+using UnityEngine;
+using UnityEditor.AI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -41,12 +43,14 @@ public class MapGenerator : MonoBehaviour
         falloffMap = FalloffGenerator.Generate(size, falloffStart, falloffEnd);
         seed = UnityEngine.Random.Range(-100000, 100000);
         DrawMapInEditor();
+        //NavMeshBuilder.BuildNavMesh();
         //MapData mapData = GenerateMapData(Vector2.zero);
         //MapDisplay display = FindObjectOfType<MapDisplay>();
         //display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, MeshHeightMultiplier, meshHeightCurve, levelOfDetail), TextureGenerator.TextureFromColorMap(mapData.colorMap, size.x, size.y));
     }
 
-    public void DrawMapInEditor()
+
+public void DrawMapInEditor()
     {
         MapData mapData = GenerateMapData(Vector2.zero);
         MapDisplay display = FindObjectOfType<MapDisplay>();
