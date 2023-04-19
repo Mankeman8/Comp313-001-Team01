@@ -55,7 +55,7 @@ public class GenerateEnemies : MonoBehaviour
         }
         if(levelDone && enemyCount <= 0)
         {
-            FindObjectOfType<GameManager>().Restart();
+            FindObjectOfType<GameManager>().LevelOne();
         }
     }
 
