@@ -62,9 +62,14 @@ public class RandomCreation : MonoBehaviour
             else if(prefab.name=="Player")
             {
                 Vector3 temp = instantiatedPrefab.transform.position;
-                instantiatedPrefab.transform.position = new Vector3(temp.x, temp.y + 210f, temp.z);
+                instantiatedPrefab.transform.position = new Vector3(temp.x, temp.y + 500f, temp.z);
                 instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(0f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);
-            } 
+            }
+            else if (prefab.tag == "Enemy")
+            {
+                Vector3 temp = instantiatedPrefab.transform.position;
+                instantiatedPrefab.transform.position = new Vector3(temp.x, temp.y + 250f, temp.z);
+            }
             else
             {
                 instantiatedPrefab.transform.rotation = Quaternion.Lerp(Quaternion.Euler(0f, 0f, 0f), transform.rotation * Quaternion.FromToRotation(instantiatedPrefab.transform.up, hit.normal), rotateTowardsNormal);

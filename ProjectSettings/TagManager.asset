@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - wasd
   - space
+  - CinemachineTarget
+  - Enemy
   layers:
   - Default
   - TransparentFX

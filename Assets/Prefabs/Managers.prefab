@@ -48,6 +48,14 @@ MonoBehaviour:
   tutorial: Tutorial
   levelOne: Level01
   levelDone: 0
+  startTeleporter: 0
+  playerDead: 0
+  timerInGame: {fileID: 0}
+  difficultyInGame: {fileID: 0}
+  enemyDifficultyInGame: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  pausedGame: 0
+  playerDeadGO: {fileID: 0}
 --- !u!1 &518407071184469162
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4b8963051e9a14b97ed400425d10f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioSource: {fileID: 0}
 --- !u!82 &518407071184469166
 AudioSource:
   m_ObjectHideFlags: 0
@@ -122,7 +131,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: f0fcee63a5463ba479052ed0bb8b0fce, type: 2}
-  m_audioClip: {fileID: 8300000, guid: daa16db01d7584c4da6bca41c5fa3526, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ffbe2754d6137164a8d5bed8052710f5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

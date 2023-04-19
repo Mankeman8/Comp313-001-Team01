@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 public class Teleporter : MonoBehaviour
@@ -16,7 +17,13 @@ public class Teleporter : MonoBehaviour
         //Setting up some variables before we start the game
         initialHeight = this.gameObject.transform.position.y;
         maxHeight = initialHeight + heightAdded;
+        StartCoroutine(LateStart(0.5f));
+    }
 
+    IEnumerator LateStart(float time)
+    {
+        yield return new WaitForSeconds(time);
+        this.GetComponent<CapsuleCollider>().enabled = true;
     }
 
     // Update is called once per frame

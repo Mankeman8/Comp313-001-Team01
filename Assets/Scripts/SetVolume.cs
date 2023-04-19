@@ -19,6 +19,7 @@ public class SetVolume : MonoBehaviour
         //Step 2: rename it to whatever you want
         //Step 3: set the float of the mixer to the value of the slider
         musicMixer.SetFloat(musicExposedParam, musicSlider.value);
+        musicSlider = GameObject.Find("Music Slider").GetComponent<Slider>();
         //If it goes to the min value, silence it since the person wants it to be 0
         if(musicSlider.value == -50)
         {
@@ -29,6 +30,7 @@ public class SetVolume : MonoBehaviour
     {
         //Read the above comments
         effectMixer.SetFloat(effectExposedParam, effectSlider.value);
+        effectSlider = GameObject.Find("SFX Slider").GetComponent<Slider>();
         if (musicSlider.value == -50)
         {
             effectMixer.SetFloat(effectExposedParam, -100);

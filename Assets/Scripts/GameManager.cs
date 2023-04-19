@@ -15,17 +15,24 @@ public class GameManager : MonoBehaviour
     public bool levelDone = false;
     public bool startTeleporter = false;
     //Keeping track of timer and stuff
-    public float timeAlive; // Time player has stayed alive
-    public int enemiesKilled; // Number of enemies killed by the player
-    public int levelsBeaten; // Number of levels beaten by the player
-    public float damageDealt; // Damage dealt by the player
-    public float damageTaken; // Damage taken by the player
-    private float difficultyModifier = 1f; // Initial difficulty modifier
-    private string difficulty = "Easy";
+    public static float timeAlive = 0; // Time player has stayed alive
+    public static int enemiesKilled = 0; // Number of enemies killed by the player
+    public static int levelsBeaten = 0; // Number of levels beaten by the player
+    public static int damageDealt = 0; // Damage dealt by the player
+    public static int damageTaken = 0; // Damage taken by the player
+    private static float difficultyModifier = 1f; // Initial difficulty modifier
+    private static string difficulty = "Easy";
+    public bool playerDead = false;
     //UI Stuff
     public TextMeshProUGUI timerInGame;
     public TextMeshProUGUI difficultyInGame;
     public TextMeshProUGUI enemyDifficultyInGame;
+    //Pause Menu
+    public GameObject pauseMenu;
+    public bool pausedGame;
+    //Player Dead
+    public GameObject playerDeadGO;
+    private bool statScreen = false;
 
     private void Awake()
     {
@@ -43,6 +50,8 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+        Time.timeScale = 1.0f;
+        
         timerInGame = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
         difficultyInGame = GameObject.Find("Difficulty").GetComponent<TextMeshProUGUI>();
         enemyDifficultyInGame = GameObject.Find("EnemyDifficulty").GetComponent<TextMeshProUGUI>();
@@ -54,10 +63,15 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
+        Cursor.lockState = CursorLockMode.Locked;
         levelDone = false;
         startTeleporter = false;
         difficultyInGame.text = difficulty;
+        pauseMenu = GameObject.Find("Pause");
+        pausedGame = false;
+        pauseMenu.SetActive(false);
+        playerDeadGO.SetActive(false);
+        statScreen = false;
     }
 
     public void QuitGame()
@@ -89,6 +103,12 @@ public class GameManager : MonoBehaviour
     {
         //Restart the current scene without any hardcoded variables
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        timeAlive = 0f;
+        enemiesKilled = 0;
+        levelsBeaten = 0;
+        damageDealt = 0;
+        damageTaken = 0;
+        difficultyModifier = 1f;
     }
 
     public void MainMenu()
@@ -113,12 +133,84 @@ public class GameManager : MonoBehaviour
         //The teleporter script will call this function
         //It's used to display to the player that the level is complete and they can proceed to the next level.
         levelDone = true;
+        levelsBeaten++;
+        FindObjectOfType<GenerateEnemies>().spawn = false;
+        FindObjectOfType<GenerateEnemies>().levelDone = true;
     }
+
+    public void EnemiesKilled(int value)
+    {
+        enemiesKilled += value;
+    }
+
+    public void DamageDealt(int damage)
+    {
+        damageDealt += damage;
+    }
+
+    public void DamageTaken(int damage)
+    {
+        damageTaken += damage;
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0.0f;
+        pausedGame = true;
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1.0f;
+        pausedGame = false;
+    }
+
+    public void PlayerDead()
+    {
+        double totalScore;
+        totalScore = (timeAlive * 1.5f) + (enemiesKilled * 2) + (levelsBeaten * 1000) + (damageDealt * 1.75) + difficultyModifier - (damageTaken * 2);
+        playerDeadGO.SetActive(true);
+        GameObject.Find("TimeAlive").GetComponent<TextMeshProUGUI>().text = "Time Alive: " + timeAlive.ToString("00.00");
+        GameObject.Find("EnemiesKilled").GetComponent<TextMeshProUGUI>().text = "Enemies Killed: " + enemiesKilled;
+        GameObject.Find("LevelsBeaten").GetComponent<TextMeshProUGUI>().text = "Levels Beaten: " + levelsBeaten;
+        GameObject.Find("DamageDealt").GetComponent<TextMeshProUGUI>().text = "Damage Dealt: " + damageDealt;
+        GameObject.Find("DifficultyModifier").GetComponent<TextMeshProUGUI>().text = "Difficulty: " + difficulty;
+        GameObject.Find("DamageTaken").GetComponent<TextMeshProUGUI>().text = "Damage Taken: " + damageTaken;
+        GameObject.Find("TotalScore").GetComponent<TextMeshProUGUI>().text = "Total Score: " + totalScore.ToString("00.00");
+        Cursor.lockState = CursorLockMode.None;
+        statScreen = true;
+    }
+
     void FixedUpdate()
     {
         if (SceneManager.GetActiveScene().name == mainMenu)
         {
             return;
+        }
+        if (playerDead && statScreen)
+        {
+            return;
+        }
+        if (playerDead)
+        {
+            Time.timeScale = 0.0f;
+            PlayerDead();
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (pausedGame)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
         }
         UpdateTimeAlive();
         UpdateDifficultyModifier();
@@ -158,6 +250,16 @@ public class GameManager : MonoBehaviour
     public float GetDifficultyModifier()
     {
         return difficultyModifier;
+    }
+
+    public void SetDifficulty(Toggle toggle)
+    {
+        if (toggle.isOn)
+        {
+            difficulty = toggle.name.ToString();
+            Debug.Log("Toggle: " + toggle.name.ToString());
+            Debug.Log("Difficulty: " + difficulty);
+        }
     }
 
     public string GetDifficulty()

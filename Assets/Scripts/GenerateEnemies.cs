@@ -12,6 +12,7 @@ public class GenerateEnemies : MonoBehaviour
     public GameObject enemySpawner;
     public int enemyCount = 0;
     public bool spawn = false;
+    public bool levelDone = false;
     private int totalCount;
     //private to keep track of stuff
     private Transform[] spawnPoints;
@@ -40,7 +41,7 @@ public class GenerateEnemies : MonoBehaviour
                 totalCount = 150;
                 break;
             default:
-                totalCount = 100;
+                totalCount = 50;
                 break;
         }
         StartCoroutine(EnemyDrop());
@@ -51,6 +52,10 @@ public class GenerateEnemies : MonoBehaviour
         if(spawn)
         {
             StartCoroutine(EnemyDrop());
+        }
+        if(levelDone && enemyCount <= 0)
+        {
+            FindObjectOfType<GameManager>().Restart();
         }
     }
 
